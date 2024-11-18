@@ -36,17 +36,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println(http);
         http.authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .logout(logout -> logout.logoutSuccessUrl("/login"))
-//                .formLogin(formLogin -> formLogin
-//                        .loginPage("/login").permitAll().successHandler(this.successHandler))
                 .formLogin(Customizer.withDefaults())
                 .formLogin(form->form.successHandler(this.successHandler));
-//                .csrf(csrf -> csrf.disable())
-//                .rememberMe(Customizer.withDefaults());
         return http.build();
     }
 
