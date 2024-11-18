@@ -22,19 +22,17 @@ public class UserController {
 
     @GetMapping("/user")
     public String getUser(ModelMap model, Authentication authentication) {
-        System.out.println("USER PAGE");
         User authUser = (User) authentication.getPrincipal();
         model.addAttribute("user", authUser);
-        return "users";
+        return "userInfo";
     }
 
 
     @GetMapping("/admin")
     public String getUserByAdmin(ModelMap model) {
-        System.out.println("ADMIN PAGE");
         List<User> userList = userService.listUsers();
         model.addAttribute("users", userList);
-        return "admin";
+        return "adminPage";
     }
 
     @GetMapping("/admin/user/delete/{id}")
@@ -48,10 +46,9 @@ public class UserController {
     @GetMapping("/admin/user/update/{id}")
     public String editUser(ModelMap model, @PathVariable(required = true) int id) {
         User user = userService.getUserById(id);
-        System.out.println(user);
         if (user == null) return "redirect:/admin";
         model.addAttribute("user", user);
-        return "userEdit";
+        return "editUser";
     }
 
     @PostMapping("/admin/user/update/{id}")
@@ -62,7 +59,7 @@ public class UserController {
 
     @GetMapping("/admin/user/create")
     public String showEditUserPage() {
-        return "userAdd";
+        return "createUser";
     }
 
     @PostMapping("/admin/user/create")
