@@ -2,15 +2,7 @@ const leftNavItems = document.getElementsByClassName('left_nav_item')
 const right_bar_container_header = document.getElementsByClassName('right-bar-container-header')[0] // Главный заголовок
 const card_header = document.getElementsByClassName('card-header-item')[0] // элемент отвечает за текст 'Add new user' и 'All users'
 const right_nav = document.getElementsByClassName('right_nav')[0] // Анимация центральной навигации между User table и New User
-const right_nav_item = document.getElementsByClassName('right_nav_item')
-const form_new_user = document.getElementsByClassName('form-new-user')[0] // форма создания нового пользователя
-const table_with_users = document.getElementsByClassName('table-with-users')[0] // админская таблица со всеми пользователями
-
-
-const state = {
-    leftStatus: document.getElementsByClassName('nav-link active left_nav_item')[0].textContent,
-    rigthStatus: document.getElementsByClassName('nav-link active right_nav_item')[0].textContent
-}
+const card = document.getElementsByClassName('card-body')[0]; // центральный элемент карточки, в который вставляются данные
 
 const users = [
     {
@@ -193,64 +185,96 @@ const users = [
     }
 ]
 
-function firstRemoveAndSetClassToSecond(item1, item2, className) {
+function removeClassFromFirstElementAndSetToSecond(item1, item2, className) {
     item1.classList.remove(className)
     item2.classList.add(className)
 }
 
+function setButtonEditEvent() {
+    for (let btn_edit of document.getElementsByClassName('btn-edit-user')) {
+        btn_edit.onclick = (e) => {
+            // console.log(typeof  );
+            const user = users.find(u => u.id == parseInt(e.target.getAttribute("userId")))
+            document.getElementsByClassName('modal-user-id')[0].setAttribute("value", `${user.id}`);
+            console.log(userIdInput)
+        }
+    }
+}
 
-// const table_body =       // body
-function tableGenerator(users, mode = null) {
-    let table = '';
+function setTableWitUsers(users, mode = null) {
+
+    let table = '<table class="table-with-users table table-striped">';
     if (!mode) {
         table += '<thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Age</th><th>Email</th><th>Role</th><th>Edit</th><th>Delete</th></tr></thead><tbody class="table-with-users-body">'
-    }
-    else {
+    } else {
         table += '<thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Age</th><th>Email</th><th>Role</th></tr></thead><tbody class="table-with-users-body">'
     }
     for (let user of users) {
         table += `<tr><td>${user.id}</td><td>${user.Firstname}</td><td>${user.Lastname}</td><td>${user.age}</td><td>${user.email}</td><td>${user.roles.map(role => `<span>${role}</span>`)}</td>`;
         if (!mode) {
-            table += "<td><a href=\"/admin/user/update/1\"><button type=\"button\" class=\"btn btn-primary\">Edit</button></a></td><td><a href=\"/admin/user/delete/1\"><button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td></tr></tbody>"
+            table += `<td><button type=\"button\" class=\"btn btn-primary btn-edit-user\" userId="${user.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button></td><td><a href=\"/admin/user/delete/1\"><button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td></tr>`
         } else {
-            table += "</tr></tbody>"
+            table += "</tr>"
         }
-
     }
-    table_with_users.innerHTML = table;
+    table += "</tbody></table>"
+    card.innerHTML = table;
+    setButtonEditEvent()
 }
-document.addEventListener("DOMContentLoaded", tableGenerator(users)) // При инициализации типо запрашиваем данные
 
 
-// document.getElementsByClassName('btn-create-user')[0].onclick = (data) => {
-//     const doc = new FormData(form_new_user).entries()
-//     console.log(doc);
-// }
+function setFormForNewUser() {
+    const formHtml = " <form class=\"form-new-user\" id=\"formNewUser\">\n" +
+        "                            <div class=\"input-group mb-2\">\n" +
+        "                                <span class=\"input-group-text\" id=\"basic-addon1\">Email</span>\n" +
+        "                                <input type=\"text\" class=\"form-control\" placeholder=\"Email\" aria-label=\"Email\"\n" +
+        "                                    aria-describedby=\"basic-addon1\" id=\"email\">\n" +
+        "                                <span class=\"input-group-text\">Password</span>\n" +
+        "                                <input type=\"text\" class=\"form-control\" placeholder=\"\" aria-label=\"Password\"\n" +
+        "                                    id=\"password\">\n" +
+        "                            </div>\n" +
+        "                            <div class=\"input-group mb-3\">\n" +
+        "                                <span class=\"input-group-text\">Firstname</span>\n" +
+        "                                <input type=\"text\" class=\"form-control\" placeholder=\"\" aria-label=\"Firstname\"\n" +
+        "                                    id=\"Firstname\">\n" +
+        "                                <span class=\"input-group-text\">Lastname</span>\n" +
+        "                                <input type=\"text\" class=\"form-control\" placeholder=\"\" aria-label=\"Lastname\"\n" +
+        "                                    id=\"lastname\">\n" +
+        "                                <span class=\"input-group-text\">Age</span>\n" +
+        "                                <input type=\"number\" class=\"form-control\" placeholder=\"\" aria-label=\"Age\" id=\"age\">\n" +
+        "                            </div>\n" +
+        "                            <div class=\"input-group mb-3\">\n" +
+        "                                <span class=\"input-group-text\">Roles</span>\n" +
+        "                                <select class=\"form-select\" multiple aria-label=\"Multiple select example\" id=\"roles\" name=\"roles[]\">\n" +
+        "                                <!-- <select multiple id=\"roles\" name=\"roles[]\"> -->\n" +
+        "                                    <option selected>Open this select menu</option>\n" +
+        "                                    <option value=\"1\">One</option>\n" +
+        "                                    <option value=\"2\">Two</option>\n" +
+        "                                    <option value=\"3\">Three</option>\n" +
+        "                                </select>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"col-auto\">\n" +
+        "                                <button type=\"submit\" class=\"btn btn-primary mb-3 btn-create-user\">Add new user</button>\n" +
+        "                            </div>\n" +
+        "                        </form>"
+    card.innerHTML = formHtml;
+    document.getElementsByClassName('form-new-user')[0].addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = {
+            email: document.forms.formNewUser.email.value,
+            password: document.forms.formNewUser.password.value,
+            firstname: document.forms.formNewUser.Firstname.value,
+            lastname: document.forms.formNewUser.lastname.value,
+            age: document.forms.formNewUser.age.value,
+            roles: getSelectValues(document.forms.formNewUser.roles)
+        }
+        console.log(data)
+    });
+}
 
 
-form_new_user.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    console.log(Object.fromEntries(formData))
-    // for(let [name, value] of formData) {
-    //     alert(`${name} = ${value}`); // key1=value1, потом key2=value2
-    //   }
-    const data = {
-        email: document.forms.formNewUser.email.value,
-        password: document.forms.formNewUser.password.value,
-        firstname: document.forms.formNewUser.Firstname.value,
-        lastname: document.forms.formNewUser.lastname.value,
-        age: document.forms.formNewUser.age.value,
-        roles: getSelectValues(document.forms.formNewUser.roles)
-    }
-    console.log(data)
-    // formData.entries().forEach(el => {
-    //     console.log(el)
-    // })
+document.addEventListener("DOMContentLoaded", setTableWitUsers(users)) // При инициализации тут мы запрашиваем данные
 
-    // Now you can use formData.get('foo'), for example.
-    // Don't forget e.preventDefault() if you want to stop normal form .submission
-});
 
 function getSelectValues(select) {
     var result = [];
@@ -269,34 +293,29 @@ function getSelectValues(select) {
 
 
 function setFirstButton(prevActiveElement, item) {
-    firstRemoveAndSetClassToSecond(prevActiveElement, item, 'active')
-    httpGet('test').then(value => { console.log(value) })
+    removeClassFromFirstElementAndSetToSecond(prevActiveElement, item, 'active')
     if (item.textContent == "New User") {
         card_header.textContent = 'Add new user'
-        firstRemoveAndSetClassToSecond(form_new_user, table_with_users, 'hide-element')
+        setFormForNewUser()
     }
     if (item.textContent == "User table") {
         card_header.textContent = 'All users'
-        firstRemoveAndSetClassToSecond(table_with_users, form_new_user, 'hide-element')
-        tableGenerator(users)
+        setTableWitUsers(users)
     }
 }
 
-console.log(leftNavItems)
 for (let item of leftNavItems) {
     item.onclick = () => {
-        console.log(item.textContent)
         let prevActiveElement = document.getElementsByClassName('nav-link active left_nav_item')[0]
         if (prevActiveElement.textContent != item.textContent) {
-            firstRemoveAndSetClassToSecond(prevActiveElement, item, 'active')
-            firstRemoveAndSetClassToSecond(item, prevActiveElement, 'link-dark')
+            removeClassFromFirstElementAndSetToSecond(prevActiveElement, item, 'active')
+            removeClassFromFirstElementAndSetToSecond(item, prevActiveElement, 'link-dark')
             if (item.textContent == "USER") {
                 // тут админ должен запрашивать и отображать информацию о себе
                 card_header.textContent = 'About user'
                 right_bar_container_header.textContent = "User information-page"
-                card_header.textContent = "About user"
                 right_nav.classList.add('hide-element')
-                tableGenerator([{
+                setTableWitUsers([{
                     "id": 83,
                     "age": 30,
                     "Firstname": "Erika",
@@ -307,13 +326,10 @@ for (let item of leftNavItems) {
                         "TEST", "USER"
                     ]
                 }], 1);
-                firstRemoveAndSetClassToSecond(table_with_users, form_new_user, 'hide-element')
-                firstRemoveAndSetClassToSecond(table_with_users, form_new_user, 'link-dark')
             }
             if (item.textContent == "ADMIN") {
                 card_header.textContent = 'All Users'
                 right_bar_container_header.textContent = "Admin panel"
-                card_header.textContent = "All users"
                 right_nav.classList.remove('hide-element')
                 setFirstButton(document.getElementById('admin_user_table_element_new'), document.getElementById('admin_user_table_element_users'))
             }
@@ -322,10 +338,7 @@ for (let item of leftNavItems) {
     }
 }
 
-// Анимация центральной навигации между User table и New User
-
-
-
+const right_nav_item = document.getElementsByClassName('right_nav_item') // центральное меню навигации между "User table" и "New user"
 for (let item of right_nav_item) {
     item.onclick = () => {
         let prevActiveElement = document.getElementsByClassName('nav-link active right_nav_item')[0]

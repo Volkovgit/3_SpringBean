@@ -1,0 +1,57 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit user</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-edit-user" id="formEditUser_" userId="1">
+          <div class="input-group mb-2">
+            <span class="input-group-text" id="span_user_id" >Id</span>
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email"
+                   aria-describedby="basic-addon1" id="user_id" disabled value=`"${user.id}"`>
+            <span class="input-group-text" id="basic-addon1">Email</span>
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email"
+                   aria-describedby="basic-addon1" id="email">
+            <span class="input-group-text">Password</span>
+            <input type="text" class="form-control" placeholder="" aria-label="Password"
+                   id="password">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Firstname</span>
+            <input type="text" class="form-control" placeholder="" aria-label="Firstname"
+                   id="Firstname">
+            <span class="input-group-text">Lastname</span>
+            <input type="text" class="form-control" placeholder="" aria-label="Lastname"
+                   id="lastname">
+            <span class="input-group-text">Age</span>
+            <input type="number" class="form-control" placeholder="" aria-label="Age" id="age">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Roles</span>
+            <select class="form-select" multiple aria-label="Multiple select example" id="roles"
+                    name="roles[]">
+              <!-- <select multiple id="roles" name="roles[]"> -->
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
