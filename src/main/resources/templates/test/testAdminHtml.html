@@ -69,18 +69,18 @@
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Edit user</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="form-edit-user" id="formEditUser_" userId="1">
+                            <form class="form-edit-user" id="formEditUser" userId="1">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text" id="span_user_id" >Id</span>
                                     <input type="text" class="form-control modal-user-id" placeholder="Id" aria-label="Email"
-                                           aria-describedby="basic-addon1" id="user_id" disabled>
+                                           aria-describedby="basic-addon1" id="userId" disabled>
                                     <span class="input-group-text" id="basic-addon1">Email</span>
                                     <input type="text" class="form-control modal-user-email" placeholder="Email" aria-label="Email"
                                            aria-describedby="basic-addon1" id="email">
@@ -90,30 +90,29 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Firstname</span>
-                                    <input type="text" class="form-control" placeholder="" aria-label="Firstname"
+                                    <input type="text" class="form-control modal-user-firstname" placeholder="" aria-label="Firstname"
                                            id="Firstname">
                                     <span class="input-group-text">Lastname</span>
-                                    <input type="text" class="form-control" placeholder="" aria-label="Lastname"
+                                    <input type="text" class="form-control modal-user-lastname" placeholder="" aria-label="Lastname"
                                            id="lastname">
                                     <span class="input-group-text">Age</span>
-                                    <input type="number" class="form-control" placeholder="" aria-label="Age" id="age">
+                                    <input type="number" class="form-control modal-user-age" placeholder="" aria-label="Age" id="age">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Roles</span>
-                                    <select class="form-select" multiple aria-label="Multiple select example" id="roles"
+                                    <select class="form-select modal-user-roles" multiple aria-label="Multiple select example" id="roles"
                                             name="roles[]">
-                                        <!-- <select multiple id="roles" name="roles[]"> -->
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value="TEST">TEST</option>
+                                        <option value="USER">USER</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="SELLER">SELLER</option>
                                     </select>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Edit</button>
+                            <button type="button" class="btn btn-primary btn-set-edit-user">Edit</button>
                         </div>
                     </div>
                 </div>

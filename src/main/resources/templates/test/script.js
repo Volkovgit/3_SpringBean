@@ -193,10 +193,17 @@ function removeClassFromFirstElementAndSetToSecond(item1, item2, className) {
 function setButtonEditEvent() {
     for (let btn_edit of document.getElementsByClassName('btn-edit-user')) {
         btn_edit.onclick = (e) => {
-            // console.log(typeof  );
             const user = users.find(u => u.id == parseInt(e.target.getAttribute("userId")))
             document.getElementsByClassName('modal-user-id')[0].setAttribute("value", `${user.id}`);
-            console.log(userIdInput)
+            document.getElementsByClassName('modal-user-email')[0].setAttribute("value", `${user.email}`);
+            document.getElementsByClassName('modal-user-password')[0].setAttribute("value", `${user.password}`);
+            document.getElementsByClassName('modal-user-firstname')[0].setAttribute("value", `${user.Firstname}`);
+            document.getElementsByClassName('modal-user-lastname')[0].setAttribute("value", `${user.Lastname}`);
+            document.getElementsByClassName('modal-user-age')[0].setAttribute("value", `${user.age}`);
+            for (let opt of document.getElementsByClassName('modal-user-roles')[0].getElementsByTagName('option')) {
+                opt.removeAttribute("selected")
+                if (user.roles.includes(opt.getAttribute("value"))) opt.setAttribute("selected", "selected")
+            }
         }
     }
 }
@@ -221,7 +228,6 @@ function setTableWitUsers(users, mode = null) {
     card.innerHTML = table;
     setButtonEditEvent()
 }
-
 
 function setFormForNewUser() {
     const formHtml = " <form class=\"form-new-user\" id=\"formNewUser\">\n" +
@@ -268,13 +274,10 @@ function setFormForNewUser() {
             age: document.forms.formNewUser.age.value,
             roles: getSelectValues(document.forms.formNewUser.roles)
         }
-        console.log(data)
     });
 }
 
-
 document.addEventListener("DOMContentLoaded", setTableWitUsers(users)) // При инициализации тут мы запрашиваем данные
-
 
 function getSelectValues(select) {
     var result = [];
@@ -290,7 +293,6 @@ function getSelectValues(select) {
     }
     return result;
 }
-
 
 function setFirstButton(prevActiveElement, item) {
     removeClassFromFirstElementAndSetToSecond(prevActiveElement, item, 'active')
@@ -348,6 +350,20 @@ for (let item of right_nav_item) {
     }
 }
 
+
+document.getElementsByClassName('btn-set-edit-user')[0].onclick = (e) => {
+    e.preventDefault();
+    const data = {
+        id: document.forms.formEditUser.userId.value,
+        email: document.forms.formEditUser.email.value,
+        password: document.forms.formEditUser.password.value,
+        firstname: document.forms.formEditUser.Firstname.value,
+        lastname: document.forms.formEditUser.lastname.value,
+        age: document.forms.formEditUser.age.value,
+        roles: getSelectValues(document.forms.formEditUser.roles)
+    }
+    console.log(data)
+};
 
 async function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
