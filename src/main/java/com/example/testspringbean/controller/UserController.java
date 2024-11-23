@@ -29,9 +29,11 @@ public class UserController {
 
 
     @GetMapping("/admin")
-    public String getUserByAdmin(ModelMap model) {
+    public String getUserByAdmin(ModelMap model,Authentication authentication) {
         List<User> userList = userService.listUsers();
+        User authUser = (User) authentication.getPrincipal();
         model.addAttribute("users", userList);
+        model.addAttribute("currentUser", authUser);
         return "adminPage";
     }
 
@@ -51,9 +53,9 @@ public class UserController {
         return "editUser";
     }
 
-    @PostMapping("/admin/user/update/{id}")
-    public String saveUser(@PathVariable(required = true) int id, @ModelAttribute("user") User userFromRequest) {
-        userService.updateUser(id, userFromRequest);
+    @PostMapping("/admin/user/update")
+    public String updateUser(@ModelAttribute("user") User userFromRequest) {
+        userService.updateUser(userFromRequest);
         return "redirect:/admin";
     }
 

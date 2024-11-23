@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public class UserRepImpl implements UserRep {
     private static String SQL_GET_ALL_USERS = "select u from User u order by u.id";
-    private static String SQL_GET_USER_BY_NAME = "select u from User u where u.name = ?1";
+    private static String SQL_GET_USER_BY_NAME = "select u from User u where u.email = ?1";
     @PersistenceContext
     private EntityManager em;
 
@@ -65,10 +65,13 @@ public class UserRepImpl implements UserRep {
     }
 
     @Override
-    public void updateUser(int userId, User newUser) {
-        User userFromDb = getUserById(userId);
+    public void updateUser(User newUser) {
+        User userFromDb = getUserById(newUser.getId());
         userFromDb.setAge(newUser.getAge());
-        userFromDb.setName(newUser.getName());
+        userFromDb.setEmail(newUser.getEmail());
+        userFromDb.setFirstName(newUser.getFirstName());
+        userFromDb.setLastName(newUser.getLastName());
+        userFromDb.setPassword(newUser.getPassword());
     }
 
 

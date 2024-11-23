@@ -7,24 +7,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-<h2>Users</h2>
+<header th:insert="header :: header"></header>
 <a th:href="@{'/admin/user/create'}"><button>Create</button></a>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Name</th>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Age</th>
-        <th>Action</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <th:block th:each="user : ${users}">
         <tr>
-            <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getFirstName()}"></td>
+            <td th:text="${user.getLastName()}"></td>
             <td th:text="${user.getAge()}"></td>
+            <td th:text="${user.getEmail()}"></td>
             <td>
-                <a th:href="@{'/admin/user/update/' + ${user.getId()}}"><button>Edit</button></a>
-                <a th:href="@{'/admin/user/delete/' + ${user.getId()}}"><button>Delete</button></a>
+                <th:block th:each="userRoles : ${user.getRolesNameList()}">
+                    <span th:text="${userRoles}"></span>
+                </th:block>
+            </td>
+            <td>
+                <a th:href="@{'/admin/user/update/' + ${user.getId()}}">
+                    <button type="button" class="btn btn-primary">Edit</button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/admin/user/delete/' + ${user.getId()}}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
             </td>
         </tr>
     </th:block>

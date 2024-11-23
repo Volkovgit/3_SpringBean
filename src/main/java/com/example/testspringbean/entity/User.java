@@ -16,15 +16,17 @@ public class User implements UserDetails {
     private int id;
 
     @Column
-    private String name;
+    private String email;
 
     @Column
     private String firstName;
+
     @Column
     private String lastName;
 
     @Column
     private int age;
+
 
     @Column
     private String password;
@@ -40,7 +42,7 @@ public class User implements UserDetails {
     }
 
     public User(String name, int age, Role userRole) {
-        this.name = name;
+        this.email = email;
         this.age = age;
         this.roles.add(userRole);
     }
@@ -57,16 +59,24 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Role> getRoles() {
         return roles;
+    }
+
+    public List<String> getRolesNameList(){
+        List<String> userRoles = new ArrayList<>();
+        for (Role role : this.roles){
+            userRoles.add(role.getRole().replace("ROLE_",""));
+        }
+        return userRoles;
     }
 
     public void setRoles(List<Role> roles) {
@@ -78,9 +88,25 @@ public class User implements UserDetails {
         this.roles.add(role);
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
-        return "User{id: " + this.id + ", name: " + this.name + ", age: " + this.age + ", roles:" + this.roles + "}";
+        return "User{id: " + this.id + ", email: " + this.email + ", age: " + this.age + ", roles:" + this.roles + "}";
     }
 
     @Override
@@ -93,9 +119,13 @@ public class User implements UserDetails {
         return this.password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
-        return this.name;
+        return this.email;
     }
 
     @Override
