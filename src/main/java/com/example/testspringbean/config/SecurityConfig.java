@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -34,16 +35,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println(http);
+//        System.out.println(http);
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .csrf(csrf->csrf.disable())
                 .logout(logout -> logout.logoutSuccessUrl("/login"))
                 .formLogin(Customizer.withDefaults())
                 .formLogin(form->form.successHandler(this.successHandler));
         return http.build();
+        // Комментарий по .csrf(csrf->csrf.disable())
+        // К сожалению я не нашел другого исправления ситуации.
+        // Пробовал менять корсы - не помогло. Но отключение csrf сразу помогло
+        // Без этого у меня становятся недоступным метод DELETE. Любой запрос (из под админа) будет падать в 403 FORBIDDEN
+        // Ради интереса можно закоментить строку и попробовать вызвать DELETE /admin/user/{id}
     }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:4200")
+//                .allowedMethods("*");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
