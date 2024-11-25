@@ -190,6 +190,7 @@ function removeClassFromFirstElementAndSetToSecond(item1, item2, className) {
     item2.classList.add(className)
 }
 
+// добавляем события на кнопку EDIT в таблице
 function setButtonEditEvent() {
     for (let btn_edit of document.getElementsByClassName('btn-edit-user')) {
         btn_edit.onclick = (e) => {
@@ -204,6 +205,35 @@ function setButtonEditEvent() {
                 opt.removeAttribute("selected")
                 if (user.roles.includes(opt.getAttribute("value"))) opt.setAttribute("selected", "selected")
             }
+            document.getElementsByClassName('btn-set-edit-user')[0].classList.remove('hide-element')
+            document.getElementsByClassName('btn-model-delete-user')[0].classList.add('hide-element')
+        }
+    }
+}
+
+// Добавляем события на кнопку DELETE в таблице
+function setButtonDeleteEvent() {
+    for (let btn_delete of document.getElementsByClassName('btn-delete-user')) {
+        btn_delete.onclick = (e) => {
+            const user = users.find(u => u.id == parseInt(e.target.getAttribute("userId")))
+            document.getElementsByClassName('modal-user-id')[0].setAttribute("value", `${user.id}`);
+            document.getElementsByClassName('modal-user-email')[0].setAttribute("value", `${user.email}`);
+            document.getElementsByClassName('modal-user-email')[0].setAttribute("disabled", `disabled`);
+            document.getElementsByClassName('modal-user-password')[0].setAttribute("value", `${user.password}`);
+            document.getElementsByClassName('modal-user-password')[0].setAttribute("disabled", `disabled`);
+            document.getElementsByClassName('modal-user-firstname')[0].setAttribute("value", `${user.Firstname}`);
+            document.getElementsByClassName('modal-user-firstname')[0].setAttribute("disabled", `disabled`);
+            document.getElementsByClassName('modal-user-lastname')[0].setAttribute("value", `${user.Lastname}`);
+            document.getElementsByClassName('modal-user-lastname')[0].setAttribute("disabled", `disabled`);
+            document.getElementsByClassName('modal-user-age')[0].setAttribute("value", `${user.age}`);
+            document.getElementsByClassName('modal-user-age')[0].setAttribute("disabled", `disabled`);
+            for (let opt of document.getElementsByClassName('modal-user-roles')[0].getElementsByTagName('option')) {
+                opt.removeAttribute("selected")
+                if (user.roles.includes(opt.getAttribute("value"))) opt.setAttribute("selected", "selected")
+            }
+            document.getElementsByClassName('modal-user-roles')[0].setAttribute("disabled", `disabled`);
+            document.getElementsByClassName('btn-set-edit-user')[0].classList.add('hide-element')
+            document.getElementsByClassName('btn-model-delete-user')[0].classList.remove('hide-element')
         }
     }
 }
@@ -219,7 +249,7 @@ function setTableWitUsers(users, mode = null) {
     for (let user of users) {
         table += `<tr><td>${user.id}</td><td>${user.Firstname}</td><td>${user.Lastname}</td><td>${user.age}</td><td>${user.email}</td><td>${user.roles.map(role => `<span>${role}</span>`)}</td>`;
         if (!mode) {
-            table += `<td><button type=\"button\" class=\"btn btn-primary btn-edit-user\" userId="${user.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button></td><td><a href=\"/admin/user/delete/1\"><button type=\"button\" class=\"btn btn-danger\">Delete</button></a></td></tr>`
+            table += `<td><button type=\"button\" class=\"btn btn-primary btn-edit-user\" userId="${user.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button></td><td><button type=\"button\" class=\"btn btn-danger btn-delete-user\" userId="${user.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button></td></tr>`
         } else {
             table += "</tr>"
         }
@@ -227,6 +257,7 @@ function setTableWitUsers(users, mode = null) {
     table += "</tbody></table>"
     card.innerHTML = table;
     setButtonEditEvent()
+    setButtonDeleteEvent()
 }
 
 function setFormForNewUser() {
@@ -274,6 +305,8 @@ function setFormForNewUser() {
             age: document.forms.formNewUser.age.value,
             roles: getSelectValues(document.forms.formNewUser.roles)
         }
+        console.log('Create user: ');
+        console.log(data)
     });
 }
 
@@ -351,6 +384,7 @@ for (let item of right_nav_item) {
 }
 
 
+//Отвечает за кнопку EDIT в модальном окне
 document.getElementsByClassName('btn-set-edit-user')[0].onclick = (e) => {
     e.preventDefault();
     const data = {
@@ -362,8 +396,27 @@ document.getElementsByClassName('btn-set-edit-user')[0].onclick = (e) => {
         age: document.forms.formEditUser.age.value,
         roles: getSelectValues(document.forms.formEditUser.roles)
     }
+    $('#exampleModal').modal('hide');
     console.log(data)
 };
+// Клин на кнопку DELETE в модальном окне
+document.getElementsByClassName('btn-model-delete-user')[0].onclick = (e) => {
+    e.preventDefault();
+    const data = {
+        id: document.forms.formEditUser.userId.value,
+        email: document.forms.formEditUser.email.value,
+        password: document.forms.formEditUser.password.value,
+        firstname: document.forms.formEditUser.Firstname.value,
+        lastname: document.forms.formEditUser.lastname.value,
+        age: document.forms.formEditUser.age.value,
+        roles: getSelectValues(document.forms.formEditUser.roles)
+    }
+    console.log("Delete user: ")
+    console.log(data)
+    $('#exampleModal').modal('hide');
+    // document.getElementById("exampleModal").classList.remove('show');
+};
+
 
 async function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
