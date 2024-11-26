@@ -2,6 +2,7 @@ package com.example.testspringbean.repository;
 
 import com.example.testspringbean.entity.Role;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,15 @@ public class RoleRepImpl implements RoleRep {
 
     @Override
     public Role getRoleByName(String roleName) {
-        TypedQuery<Role> roleByNameQuery = em.createQuery(SQL_GET_ROLE_BY_NAME, Role.class);
-        return roleByNameQuery.setParameter(1, roleName).getSingleResult();
+        try{
+            TypedQuery<Role> roleByNameQuery = em.createQuery(SQL_GET_ROLE_BY_NAME, Role.class);
+            Role role = roleByNameQuery.setParameter(1, roleName).getSingleResult();
+            return role;
+        }
+        catch (NoResultException e){
+            System.out.println("Not found role: "+ roleName);
+            return null;
+        }
+
     }
 }

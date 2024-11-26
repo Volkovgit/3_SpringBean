@@ -32,7 +32,6 @@ public class User implements UserDetails {
     private String password;
 
 
-
     //todo : Надо попытаться изменить на FetchType.LAZY, но пока что я вообще не понимаю как
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
@@ -49,6 +48,10 @@ public class User implements UserDetails {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public int getAge() {
@@ -71,16 +74,16 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public List<String> getRolesNameList(){
-        List<String> userRoles = new ArrayList<>();
-        for (Role role : this.roles){
-            userRoles.add(role.getRole().replace("ROLE_",""));
-        }
-        return userRoles;
-    }
-
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<String> getRolesNameList() {
+        List<String> userRoles = new ArrayList<>();
+        for (Role role : this.roles) {
+            userRoles.add(role.getRole().replace("ROLE_", ""));
+        }
+        return userRoles;
     }
 
     public void addRole(Role role) {
@@ -106,7 +109,11 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{id: " + this.id + ", email: " + this.email + ", age: " + this.age + ", roles:" + this.roles + "}";
+        return "User{id: " + this.id + ", email: " + this.email + ", age: " + this.age + ", roles:" + this.roles
+                + ", firstname:" + this.firstName
+                + ", lastname:" + this.lastName
+                + ", password:" + this.password
+                + "}";
     }
 
     @Override

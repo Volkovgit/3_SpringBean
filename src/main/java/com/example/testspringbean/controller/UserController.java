@@ -41,19 +41,19 @@ public class UserController {
 //        return "redirect:/admin";
 //    }
 
-    @GetMapping("/admin/user/update/{id}")
-    public String editUser(ModelMap model, @PathVariable(required = true) int id) {
-        User user = userService.getUserById(id);
-        if (user == null) return "redirect:/admin";
-        model.addAttribute("user", user);
-        return "editUser";
-    }
+//    @GetMapping("/admin/user/update/{id}")
+//    public String editUser(ModelMap model, @PathVariable(required = true) int id) {
+//        User user = userService.getUserById(id);
+//        if (user == null) return "redirect:/admin";
+//        model.addAttribute("user", user);
+//        return "editUser";
+//    }
 
-    @PostMapping("/admin/user/update")
-    public String updateUser(@ModelAttribute("user") User userFromRequest) {
-        userService.updateUser(userFromRequest);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/admin/user/update")
+//    public String updateUser(@ModelAttribute("user") User userFromRequest) {
+//        userService.updateUser(userFromRequest);
+//        return "redirect:/admin";
+//    }
 
     @GetMapping("/admin/user/create")
     public String showEditUserPage() {
@@ -62,7 +62,7 @@ public class UserController {
 
     @PostMapping("/admin/user/create")
     public String createUser(@ModelAttribute("user") User userFromRequest) {
-        System.out.println(userFromRequest);
+
         userService.saveUser(userFromRequest);
         return "redirect:/admin";
     }

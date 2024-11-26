@@ -52,13 +52,6 @@ public class SecurityConfig {
         // Ради интереса можно закоментить строку и попробовать вызвать DELETE /admin/user/{id}
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("http://localhost:4200")
-//                .allowedMethods("*");
-//    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();

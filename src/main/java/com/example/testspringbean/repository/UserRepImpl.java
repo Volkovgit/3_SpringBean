@@ -1,5 +1,6 @@
 package com.example.testspringbean.repository;
 
+import com.example.testspringbean.entity.Role;
 import com.example.testspringbean.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
