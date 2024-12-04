@@ -73,6 +73,7 @@ public class UserRepImpl implements UserRep {
         userFromDb.setFirstName(newUser.getFirstName());
         userFromDb.setLastName(newUser.getLastName());
         userFromDb.setPassword(newUser.getPassword());
+        userFromDb.setRoles(newUser.getRoles());
     }
 
 

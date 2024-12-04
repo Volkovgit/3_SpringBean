@@ -5,21 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-<header th:fragment="header" class="p-3 bg-dark text-white">
-  <div class="container" style="max-width: 100%;">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <div>admin@mail.ru with roles:</div>
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li class="px-1 text-white">ADMIN</li>
-        <li class="px-1 text-white">USER</li>
-        <li class="px-1 text-white">BABABA</li>
-      </ul>
+<header>
+  <header class="p-3 bg-dark text-white">
+    <div class="container" style="max-width: 100%;">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <div id="current-user-email"></div>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="header-role-list">
+        </ul>
 
-      <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Logout</button>
+        <div class="text-end">
+          <a href="/logout"><button type="button" class="btn btn-outline-light me-2">Logout</button></a>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
 </header>
 </body>
 </html>

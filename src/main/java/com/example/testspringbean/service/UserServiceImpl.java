@@ -52,6 +52,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
+        List<Role> userRoles = new ArrayList<>();
+        for(Role userRole : user.getRoles()){
+            userRoles.add(roleRep.getRoleByName(userRole.getRole()));
+        }
+        user.setRoles(userRoles);
         userRep.updateUser(user);
     }
 

@@ -1,6 +1,8 @@
 package com.example.testspringbean.controller;
 
+import com.example.testspringbean.dto.UserDto;
 import com.example.testspringbean.entity.User;
+import com.example.testspringbean.service.RoleService;
 import com.example.testspringbean.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,13 +19,31 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @GetMapping("/user")
+    public UserDto getCurrentUser(Authentication authentication){
+        return new UserDto((User) authentication.getPrincipal());
+    }
+
     @GetMapping("/admin/user")
-    public List<User> getUserByAdmin(ModelMap model, Authentication authentication) {
-        List<User> userList = userService.listUsers();
-        User authUser = (User) authentication.getPrincipal();
-        model.addAttribute("users", userList);
-        model.addAttribute("currentUser", authUser);
-        return userList;
+    public List<UserDto> getUserByAdmin() {
+        List<UserDto> userDtoList = new ArrayList<>();
+        for(User user : userService.listUsers()){
+            userDtoList.add(new UserDto(user));
+        }
+        return userDtoList;
+    }
+
+//    @GetMapping("/admin/currentUser")
+//    public UserDto getCurrentUser(Authentication authentication){
+//        return new UserDto((User) authentication.getPrincipal());
+//    }
+
+    @GetMapping("/admin/user/{id}")
+    public UserDto getUserById(@PathVariable(required = true) int id){
+        return new UserDto(userService.getUserById(id));
     }
 
     @DeleteMapping("/admin/user/{id}")
@@ -42,6 +63,11 @@ public class UserRestController {
         else{
             userService.saveUser(body);
         }
+    }
+
+    @GetMapping("/admin/role")
+    public List<String> getRoleNameList(){
+        return roleService.getRoleNameList();
     }
 
 }

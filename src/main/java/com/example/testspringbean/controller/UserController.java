@@ -17,20 +17,24 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
-    public String getUser(ModelMap model, Authentication authentication) {
-        User authUser = (User) authentication.getPrincipal();
-        model.addAttribute("user", authUser);
-        return "userInfo";
-    }
+//    @GetMapping("/user")
+//    public String getUser(ModelMap model, Authentication authentication) {
+//        User authUser = (User) authentication.getPrincipal();
+//        model.addAttribute("user", authUser);
+//        return "adminPage";
+//    }
 
-    @GetMapping("/admin")
-    public String getUserByAdmin(ModelMap model, Authentication authentication) {
-        List<User> userList = userService.listUsers();
+    @GetMapping("/")
+    public String mainPage(ModelMap model, Authentication authentication) {
         User authUser = (User) authentication.getPrincipal();
-        model.addAttribute("users", userList);
+        Boolean userHasAdminRole = authUser.userHasRole("ROLE_ADMIN");
+        if(userHasAdminRole){
+            List<User> userList = userService.listUsers();
+            model.addAttribute("users", userList);
+        }
         model.addAttribute("currentUser", authUser);
-        return "adminPage";
+        model.addAttribute("userHasAdminRole",userHasAdminRole);
+        return "mainPage";
     }
 
 //    @DeleteMapping("/admin/user/{id}")
@@ -54,16 +58,16 @@ public class UserController {
 //        userService.updateUser(userFromRequest);
 //        return "redirect:/admin";
 //    }
-
-    @GetMapping("/admin/user/create")
-    public String showEditUserPage() {
-        return "createUser";
-    }
-
-    @PostMapping("/admin/user/create")
-    public String createUser(@ModelAttribute("user") User userFromRequest) {
-
-        userService.saveUser(userFromRequest);
-        return "redirect:/admin";
-    }
+//
+//    @GetMapping("/admin/user/create")
+//    public String showEditUserPage() {
+//        return "createUser";
+//    }
+//
+//    @PostMapping("/admin/user/create")
+//    public String createUser(@ModelAttribute("user") User userFromRequest) {
+//
+//        userService.saveUser(userFromRequest);
+//        return "redirect:/admin";
+//    }
 }

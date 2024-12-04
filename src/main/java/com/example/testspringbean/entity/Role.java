@@ -2,9 +2,9 @@ package com.example.testspringbean.entity;
 
 //import jakarta.persistence.Entity;
 //import jakarta.persistence.Table;
-import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "roles")
@@ -22,7 +22,6 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
-    ;
 
     public Role(String role) {
         this.role = role;

@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
 
     //todo : Надо попытаться изменить на FetchType.LAZY, но пока что я вообще не понимаю как
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private List<Role> roles;
 
 
@@ -81,7 +81,7 @@ public class User implements UserDetails {
     public List<String> getRolesNameList() {
         List<String> userRoles = new ArrayList<>();
         for (Role role : this.roles) {
-            userRoles.add(role.getRole().replace("ROLE_", ""));
+            userRoles.add(role.getRole());
         }
         return userRoles;
     }
@@ -153,5 +153,12 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean userHasRole(String roleName){
+        for(Role userRole : roles){
+            if(userRole.getRole().equals(roleName))return true;
+        }
+        return false;
     }
 }
