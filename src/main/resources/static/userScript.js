@@ -1,14 +1,9 @@
 const leftNavItems = document.getElementsByClassName('left_nav_item')
 const right_bar_container_header = document.getElementsByClassName('right-bar-container-header')[0] // Главный заголовок
 const card_header = document.getElementsByClassName('card-header-item')[0] // элемент отвечает за текст 'Add new user' и 'All users'
-const right_nav = document.getElementsByClassName('right_nav')[0] // Анимация центральной навигации между User table и New User
 const card = document.getElementsByClassName('card-body')[0]; // центральный элемент карточки, в который вставляются данные
 
 
-// function removeClassFromFirstElementAndSetToSecond(item1, item2, className) {
-//     item1.classList.remove(className)
-//     item2.classList.add(className)
-// }
 
 function setTableWitUsers(user) {
     let table = '<table class="table-with-users table table-striped">';
@@ -44,34 +39,6 @@ document.addEventListener("DOMContentLoaded", function () { // При иници
         setTableWitUsers(res)
     })
 })
-
-
-// for (let item of leftNavItems) {
-//     item.onclick = () => {
-//         let prevActiveElement = document.getElementsByClassName('nav-link active left_nav_item')[0]
-//         if (prevActiveElement.textContent != item.textContent) {
-//             removeClassFromFirstElementAndSetToSecond(prevActiveElement, item, 'active')
-//             removeClassFromFirstElementAndSetToSecond(item, prevActiveElement, 'link-dark')
-//             if (item.textContent == "USER") {
-//                 card_header.textContent = 'About user'
-//                 right_bar_container_header.textContent = "User information-page"
-//                 right_nav.classList.add('hide-element')
-//                 setTableWitUsers(true);
-//             }
-//         }
-//
-//     }
-// }
-
-// const right_nav_item = document.getElementsByClassName('right_nav_item') // центральное меню навигации между "User table" и "New user"
-// for (let item of right_nav_item) {
-//     item.onclick = () => {
-//         let prevActiveElement = document.getElementsByClassName('nav-link active right_nav_item')[0]
-//         if (prevActiveElement.textContent != item.textContent) {
-//             setFirstButton(prevActiveElement, item)
-//         }
-//     }
-// }
 
 
 async function httpGet(url) {

@@ -36,10 +36,6 @@ public class UserRestController {
         return userDtoList;
     }
 
-//    @GetMapping("/admin/currentUser")
-//    public UserDto getCurrentUser(Authentication authentication){
-//        return new UserDto((User) authentication.getPrincipal());
-//    }
 
     @GetMapping("/admin/user/{id}")
     public UserDto getUserById(@PathVariable(required = true) int id){

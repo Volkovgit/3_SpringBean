@@ -31,7 +31,6 @@ function setButtonEditEvent() {
                 document.getElementsByClassName('btn-set-edit-user')[0].classList.remove('hide-element')
                 document.getElementsByClassName('btn-model-delete-user')[0].classList.add('hide-element')
             })
-            // const user = userList.find(u => u.id == parseInt()
 
         }
     }
@@ -142,7 +141,6 @@ function setFormForNewUser() {
                 setTableWitUsers()
             }
         )
-        // console.log(data)
     });
 }
 
@@ -256,16 +254,6 @@ document.getElementsByClassName('btn-set-edit-user')[0].onclick = (e) => {
 // Клин на кнопку DELETE в модальном окне
 document.getElementsByClassName('btn-model-delete-user')[0].onclick = (e) => {
     e.preventDefault();
-    // const data = {
-    //     id: document.forms.formEditUser.userId.value,
-    //     email: document.forms.formEditUser.email.value,
-    //     password: document.forms.formEditUser.password.value,
-    //     firstname: document.forms.formEditUser.Firstname.value,
-    //     lastname: document.forms.formEditUser.lastname.value,
-    //     age: document.forms.formEditUser.age.value,
-    //     roles: getSelectValues(document.forms.formEditUser.roles)
-    // }
-    // console.log("Delete user: ")
     console.log(document.forms.formEditUser.userId.value)
     $('#exampleModal').modal('hide');
     httpRequest(`/admin/user/${document.forms.formEditUser.userId.value}`, null, 'DELETE').then(res => {
@@ -273,7 +261,6 @@ document.getElementsByClassName('btn-model-delete-user')[0].onclick = (e) => {
             setTableWitUsers()
         }
     )
-    // document.getElementById("exampleModal").classList.remove('show');
 };
 
 
